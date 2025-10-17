@@ -1,31 +1,29 @@
-import caeser_logo, string
+import auction_logo
+print(auction_logo.auction_logo)
 
-print(caeser_logo.logo)
+def find_highest_bidder(bidding_dict):
+    highest_bid = 0
+    winner = ""
+    for bidder in bidding_dict:
+        bid_amount = bidding_dict[bidder]
+        if bid_amount > highest_bid:
+            highest_bid = bid_amount
+            winner = bidder
 
-alphabet = string.ascii_lowercase
+    print(f"The winner is {winner} with a bid of ${highest_bid}")
 
-def caeser(original_text, shift_amount, encode_decode):
-    output_text = ""
+bids = {}
 
-    shift_amount = shift_amount if encode_decode == "encode" else -shift_amount
+is_bidding = True
+while is_bidding:
+    name = input("What is your name?: ")
+    price = int(input("What is your bid?: $"))
+    bids[name] = price
 
-    for letter in original_text:
-        if letter not in alphabet:
-            output_text += letter
-        else:
-            shifted_position = (alphabet.index(letter) + shift_amount) % len(alphabet)
-            output_text += alphabet[shifted_position]
-    print(f"Here is the {encode_decode}d result: {output_text}")
-
-should_continue = True
-while should_continue:
-    while (direction := input("Type 'encode' to encrypt, type 'decode' to decrypt: \n").lower()) not in ("encode", "decode"):
-        print("Wrong input")
-    text = input("Type your message: \n").lower()
-    shift = int(input("Type the shift number: \n")) % len(alphabet)
-
-    caeser(text, shift, direction)
-    restart = input("Type 'yes' to continue. Otherwise, type 'no': \n").lower()
-    if restart == "no":
-        should_continue = False
-        print("Goodbye!")
+    while (should_continue := input("Are there any other bidders? Type 'yes' ot 'no': \n").lower()) not in ('yes', 'no'):
+        print("Please enter yes or no.")
+    if should_continue == "no":
+        is_bidding = False
+        find_highest_bidder(bids)
+    elif should_continue == "yes":
+        print("\n" * 20)
